@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: npm ci
-    - run: npm test
+    - run: yarn
+    - run: yarn test
       env:
         INPUT_SK: ${{ secrets.DM_SK }}
 
@@ -24,4 +24,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: ./
       with:
-        milliseconds: 1000
+        sk: ${{ secrets.DM_SK }}
+        to: woaipingpu@qq.com
+        subject: Hello Github Action!
+        content: It works in test action.
