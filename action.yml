@@ -1,13 +1,18 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
+name: 'Send Mail'
+description: 'Send mail using aliyun dm'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  to:  # id of input
+    description: 'to'
     required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps
-    description: 'The message to output'
+  subject:  # id of input
+    description: 'subject'
+    required: true
+  content:  # id of input
+    description: 'content'
+    required: true
+  sk:  # id of input
+    description: 'sk'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

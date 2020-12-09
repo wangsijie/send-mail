@@ -1,23 +1,25 @@
-const wait = require('./wait');
+const sendMail = require('./send-mail');
 const process = require('process');
 const cp = require('child_process');
 const path = require('path');
 
-test('throws invalid number', async () => {
-  await expect(wait('foo')).rejects.toThrow('milliseconds not a number');
+test('throws sk is missing', async () => {
+  await expect(sendMail()).rejects.toThrow('SK is missing');
 });
 
-test('wait 500 ms', async () => {
-  const start = new Date();
-  await wait(500);
-  const end = new Date();
-  var delta = Math.abs(end - start);
-  expect(delta).toBeGreaterThanOrEqual(500);
+test('throws to is missing', async () => {
+  await expect(sendMail('testsk')).rejects.toThrow('To address is missing');
 });
 
-// shows how the runner will run a javascript action with env / stdout protocol
+test('throws subject is missing', async () => {
+  await expect(sendMail('testsk', 'i@sijie.wang')).rejects.toThrow('Subject is missing');
+});
+
 test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = 500;
+  // process.env['INPUT_SK'] is given by env
+  process.env['INPUT_TO'] = 'woaipingpu@qq.com';
+  process.env['INPUT_SUBJECT'] = 'Hello Github Action!';
+  process.env['INPUT_CONTENT'] = 'It works!';
   const ip = path.join(__dirname, 'index.js');
-  console.log(cp.execSync(`node ${ip}`, {env: process.env}).toString());
+  console.log(cp.execSync(`node ${ip}`, { env: process.env }).toString());
 })
